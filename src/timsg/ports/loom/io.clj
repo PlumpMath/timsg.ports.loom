@@ -5,10 +5,14 @@
             [timsg.ports.loom.alg :refer [distinct-edges loners]]
             [timsg.ports.loom.attr :refer [attr? attr attrs]]
             [clojure.string :refer [escape]]
-            [clojure.java.io :refer [file]]
-            [clojure.java.shell :refer [sh]])
-  (:import (java.io FileWriter
-                    FileOutputStream)))
+            ;;[clojure.java.io :refer [file]]
+            [clojure.clr.io :as io;;:refer [file]
+             ]
+            ;;[clojure.java.shell :refer [sh]]
+            [clojure.clr.shell :refer [sh]])
+  ;; (:import (java.io FileWriter
+  ;;                   FileOutputStream))
+  )
 
 (defn- dot-esc
   [s]
@@ -54,13 +58,13 @@
                          :else (constantly nil)))
         sb (doto (StringBuilder.
                   (if d? "digraph \"" "graph \""))
-             (.append (dot-esc graph-name))
-             (.append "\" {\n"))]
+             (.Append (dot-esc graph-name))
+             (.Append "\" {\n"))]
     (doseq [k [:graph :node :edge]]
       (when (k opts)
         (doto sb
-          (.append (str "  " (name k) " "))
-          (.append (dot-attrs (k opts))))))
+          (.Append (str "  " (name k) " "))
+          (.Append (dot-attrs (k opts))))))
     (doseq [[n1 n2] (distinct-edges g)]
       (let [n1l (str (or (node-label n1) n1))
             n2l (str (or (node-label n2) n2))
@@ -69,74 +73,75 @@
                             (attrs g n1 n2) {})
                      :label el)]
         (doto sb
-          (.append "  \"")
-          (.append (dot-esc n1l))
-          (.append (if d? "\" -> \"" "\" -- \""))
-          (.append (dot-esc n2l))
-          (.append \"))
+          (.Append "  \"")
+          (.Append (dot-esc n1l))
+          (.Append (if d? "\" -> \"" "\" -- \""))
+          (.Append (dot-esc n2l))
+          (.Append \"))
         (when (or (:label eattrs) (< 1 (count eattrs)))
-          (.append sb \space)
-          (.append sb (dot-attrs eattrs)))
-        (.append sb "\n")))
+          (.Append sb \space)
+          (.Append sb (dot-attrs eattrs)))
+        (.Append sb "\n")))
     (doseq [n (nodes g)]
       (doto sb
-        (.append "  \"")
-        (.append (dot-esc (str (or (node-label n) n))))
-        (.append \"))
+        (.Append "  \"")
+        (.Append (dot-esc (str (or (node-label n) n))))
+        (.Append \"))
       (when-let [nattrs (when a?
                           (dot-attrs (attrs g n)))]
-        (.append sb \space)
-        (.append sb nattrs))
-      (.append sb "\n"))
-    (str (doto sb (.append "}")))))
+        (.Append sb \space)
+        (.Append sb nattrs))
+      (.Append sb "\n"))
+    (str (doto sb (.Append "}")))))
 
 (defn dot
   "Writes graph g to f (string or File) in DOT format. args passed to dot-str"
   [g f & args]
-  (spit (str (file f)) (apply dot-str g args)))
+  (spit (.FullName (io/as-file f)) (apply dot-str g args)))
 
 (defn- os
   "Returns :win, :mac, :unix, or nil"
   []
-  (condp
-      #(<= 0 (.indexOf ^String %2 ^String %1))
-      (.toLowerCase (System/getProperty "os.name"))
-    "win" :win
-    "mac" :mac
-    "nix" :unix
-    "nux" :unix
-    nil))
+  (condp = (.Platform Environment/OSVersion)
+    PlatformID/Win32NT :win
+    PlatformID/Win32S :win
+    PlatformID/Win32Windows :win
+    PlatformID/WinCE :win
+    PlatformID/Unix :unix
+    PlatformID/Xbox :xbox
+    PlatformID/MacOSX :mac))
 
 (defn- open
   "Opens the given file (a string, File, or file URI) in the default
   application for the current desktop environment. Returns nil"
   [f]
-  (let [f (file f)]
+  (let [f (io/as-file f)]
     ;; There's an 'open' method in java.awt.Desktop but it hangs on Windows
     ;; using Clojure Box and turns the process into a GUI process on Max OS X.
     ;; Maybe it's ok for Linux?
     (condp = (os)
-      :mac (sh "open" (str f))
-      :win (sh "cmd" (str "/c start " (-> f .toURI .toURL str)))
-      :unix (sh "xdg-open" (str f)))
+      :mac (sh "open" (.FullName f))
+      ;; someone figure this out please:
+      ;; :win (sh "cmd" (str "/c start " (-> f .toURI .toURL str)))
+      :unix (sh "xdg-open" (.FullName f)))
     nil))
 
-(defn- open-data
-  "Writes the given data (string or bytes) to a temporary file with the
-  given extension (string or keyword, with or without the dot) and then open
-  it in the default application for that extension in the current desktop
-  environment. Returns nil"
-  [data ext]
-  (let [ext (name ext)
-        ext (if (= \. (first ext)) ext (str \. ext))
-        tmp (java.io.File/createTempFile (subs ext 1) ext)]
-    (if (string? data)
-      (with-open [w (java.io.FileWriter. tmp)]
-        (.write w ^String data))
-      (with-open [w (java.io.FileOutputStream. tmp)]
-        (.write w ^bytes data)))
-    (.deleteOnExit tmp)
-    (open tmp)))
+;; (defn- open-data
+;;   "Writes the given data (string or bytes) to a temporary file with the
+;;   given extension (string or keyword, with or without the dot) and then open
+;;   it in the default application for that extension in the current desktop
+;;   environment. Returns nil"
+;;   [data ext]
+;;   (let [ext (name ext)
+;;         ext (if (= \. (first ext)) ext (str \. ext))
+;;         tmp (java.io.File/createTempFile (subs ext 1) ext)]
+;;     (if (string? data)
+;;       (with-open [w (java.io.FileWriter. tmp)]
+;;         (.write w ^String data))
+;;       (with-open [w (java.io.FileOutputStream. tmp)]
+;;         (.write w ^bytes data)))
+;;     (.deleteOnExit tmp)
+;;     (open tmp)))
 
 (defn render-to-bytes
   "Renders the graph g in the PNG format using GraphViz and returns PNG data
@@ -149,11 +154,12 @@
         {png :out} (sh (name alg) "-Tpng" :in dot :out-enc :bytes)]
     png))
 
-(defn view
-  "Converts graph g to a temporary PNG file using GraphViz and opens it
-  in the current desktop environment's default viewer for PNG files.
-  Requires GraphViz's 'dot' (or a specified algorithm) to be installed in
-  the shell's path. Possible algorithms include :dot, :neato, :fdp, :sfdp,
-  :twopi, and :circo"
-  [g & opts]
-    (open-data (apply render-to-bytes g opts) :png))
+;; (defn view
+;;   "Converts graph g to a temporary PNG file using GraphViz and opens it
+;;   in the current desktop environment's default viewer for PNG files.
+;;   Requires GraphViz's 'dot' (or a specified algorithm) to be installed in
+;;   the shell's path. Possible algorithms include :dot, :neato, :fdp, :sfdp,
+;;   :twopi, and :circo"
+;;   [g & opts]
+;;     (open-data (apply render-to-bytes g opts) :png))
+

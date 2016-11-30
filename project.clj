@@ -1,5 +1,5 @@
-(defproject timsg.ports.loom "0.6.1-SNAPSHOT"
-  :description "Graph library for Clojure"
+(defproject timsg.ports.loom 
+  :description "Provisional port of aysylu/loom graph library for Clojure to Arcadia."
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[org.clojure/clojure "1.7.0"]

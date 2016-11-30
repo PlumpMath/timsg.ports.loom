@@ -1,7 +1,7 @@
-(ns loom.test.derived
-  (:require [loom.derived :refer :all]
-            [loom.graph :refer :all]
-            [loom.alg :refer :all]
+(ns timsg.ports.loom.test.derived
+  (:require [timsg.ports.loom.derived :refer :all]
+            [timsg.ports.loom.graph :refer :all]
+            [timsg.ports.loom.alg :refer :all]
             [clojure.test :refer :all]))
 
 (deftest derived-graph-test

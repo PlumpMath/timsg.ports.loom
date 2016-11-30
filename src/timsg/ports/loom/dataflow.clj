@@ -1,7 +1,7 @@
 (ns ^{:doc "Dataflow analysis framework"
       :author "Aysylu Greenberg"}
-  loom.dataflow
-  (:require [loom.graph :as g]))
+  timsg.ports.loom.dataflow
+  (:require [timsg.ports.loom.graph :as g]))
 
 (defn dataflow-analysis
   "Performs dataflow analysis using iterative worklist-based algorithm.

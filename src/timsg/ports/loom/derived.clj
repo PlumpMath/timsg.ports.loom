@@ -1,7 +1,7 @@
 (ns ^{:doc "Defines derived graphs from existing graphs using maps and filters."
       :author "Horst Duchene"}
-  loom.derived
-  (:require [loom.graph :refer [digraph graph
+  timsg.ports.loom.derived
+  (:require [timsg.ports.loom.graph :refer [digraph graph
                                 nodes edges successors fly-graph predecessors
                                 add-nodes* add-edges*
                                 directed?]]))

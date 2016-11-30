@@ -1,6 +1,6 @@
-(ns loom.test.alg-generic
-  (:require [loom.alg-generic :as lag]
-            [loom.graph :as g]
+(ns timsg.ports.loom.test.alg-generic
+  (:require [timsg.ports.loom.alg-generic :as lag]
+            [timsg.ports.loom.graph :as g]
             [clojure.set :as set]
             [clojure.test :refer [deftest are]]
             [clojure.test.check :as tc]

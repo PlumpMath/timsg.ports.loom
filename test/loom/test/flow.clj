@@ -1,7 +1,7 @@
-(ns loom.test.flow
-  (:require [loom.graph :refer :all]
-            [loom.flow :refer :all]
-            [loom.alg :refer [max-flow]]
+(ns timsg.ports.loom.test.flow
+  (:require [timsg.ports.loom.graph :refer :all]
+            [timsg.ports.loom.flow :refer :all]
+            [timsg.ports.loom.alg :refer [max-flow]]
             [clojure.test :refer :all]))
 
 

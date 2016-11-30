@@ -3,8 +3,8 @@ Also provides record implementations and constructors for simple graphs --
 weighted, unweighted, directed, and undirected. The implementations are based
 on adjacency lists."
       :author "Justin Kramer"}
-  loom.graph
-  (:require [loom.alg-generic :refer [bf-traverse]]))
+  timsg.ports.loom.graph
+  (:require [timsg.ports.loom.alg-generic :refer [bf-traverse]]))
 
 ;;;
 ;;; Protocols

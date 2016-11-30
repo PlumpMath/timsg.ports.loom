@@ -2,20 +2,20 @@
 Graph, Digraph, or WeightedGraph protocols (as appropriate per algorithm)
 can use these functions."
       :author "Justin Kramer"}
-  loom.alg
-  (:require [loom.alg-generic :as gen]
-            [loom.flow :as flow]
-            [loom.graph
+  timsg.ports.loom.alg
+  (:require [timsg.ports.loom.alg-generic :as gen]
+            [timsg.ports.loom.flow :as flow]
+            [timsg.ports.loom.graph
              :refer [add-nodes add-edges nodes edges successors weight predecessors
                      out-degree in-degree weighted? directed? graph digraph transpose]
              :as graph]
-            [loom.alg-generic :refer [trace-path preds->span]]
+            [timsg.ports.loom.alg-generic :refer [trace-path preds->span]]
             #?(:clj [clojure.data.priority-map :as pm]
                :cljs [tailrecursion.priority-map :as pm])
             [clojure.set :as clj.set]))
 
 ;;;
-;;; Convenience wrappers for loom.alg-generic functions
+;;; Convenience wrappers for timsg.ports.loom.alg-generic functions
 ;;;
 (defn- traverse-all
   [nodes traverse]

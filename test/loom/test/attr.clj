@@ -1,6 +1,6 @@
-(ns loom.test.attr
-  (:require [loom.graph :refer :all]
-            [loom.attr :refer :all]
+(ns timsg.ports.loom.test.attr
+  (:require [timsg.ports.loom.graph :refer :all]
+            [timsg.ports.loom.attr :refer :all]
             [clojure.test :refer :all]))
 
 (deftest attr-graph-test

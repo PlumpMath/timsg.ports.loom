@@ -1,8 +1,9 @@
 (ns ^{:doc "Graph algorithms for use on any type of graph"
       :author "Justin Kramer"}
-  loom.alg-generic
+  timsg.ports.loom.alg-generic
   (:refer-clojure :exclude [ancestors])
-  (:import [java.util Arrays]))
+  ;;(:import [java.util Arrays])
+  )
 
 ;;;
 ;;; Utility functions
@@ -157,7 +158,7 @@
 
 (defn topsort-component
   "Topological sort of a component of a (presumably) directed graph.
-  Returns nil if the graph contains any cycles. See loom.alg/topsort
+  Returns nil if the graph contains any cycles. See timsg.ports.loom.alg/topsort
   for a complete topological sort"
   ([successors start]
      (topsort-component successors start #{} #{}))
@@ -457,9 +458,9 @@
 
 ;;; Ancestry node-bitmap helper vars/fns
 
-(def ^Long bits-per-long (long (Long/SIZE)))
+(def ^Int64 bits-per-long (long 64))
 
-(defn ^Long bm-longs
+(defn ^Int64 bm-longs
   "Returns the number of longs required to store bits count bits in a bitmap."
   [bits]
   (long (Math/ceil (/ bits bits-per-long))))
@@ -469,16 +470,21 @@
   ^longs []
   (long-array 1))
 
+(defn array-copy [ar]
+  (let [ar2 (make-array (.GetElementType (type ar)) (count ar))]
+    (Array/Copy ar ar2 (count ar))
+    ar2))
+
 (defn bm-set
   "Set boolean state of bit in 'bitmap at 'idx to true."
   ^longs [^longs bitmap idx]
   (let [size (max (count bitmap) (bm-longs (inc idx)))
-        new-bitmap (Arrays/copyOf bitmap ^Long size)
+        ^longs new-bitmap (array-copy bitmap)
         chunk (quot idx bits-per-long)
         offset (mod idx bits-per-long)
         mask (bit-set 0 offset)
         value (aget new-bitmap chunk)
-        new-value (bit-or value ^Long mask)]
+        new-value (bit-or value ^Int64 mask)]
     (aset new-bitmap chunk new-value)
     new-bitmap))
 
@@ -499,7 +505,10 @@
   (if (empty? bitmaps)
     (bm-new)
     (let [size (apply max (map count bitmaps))
-          new-bitmap (Arrays/copyOf ^longs (first bitmaps) ^Long size)]
+          ^longs new-bitmap (make-array Int64 size)
+          ;; ^longs new-bitmap (Arrays/copyOf ^longs (first bitmaps) ^Int64 size)
+          ]
+      (Array/Copy (first bitmaps) new-bitmap size)
       (doseq [bitmap (rest bitmaps)
               [idx value] (map-indexed list bitmap)
               :let [masked-value (bit-or value (aget new-bitmap idx))]]

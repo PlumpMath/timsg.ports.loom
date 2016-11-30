@@ -1,10 +1,10 @@
 (ns ^{:doc
-      "Graph label protocol and implementations for records from loom.graph"
+      "Graph label protocol and implementations for records from timsg.ports.loom.graph"
       :author "Justin Kramer"}
-  loom.label
-  (:require [loom.attr :refer [add-attr remove-attr attr]]
-            [loom.graph :refer [add-nodes add-edges]])
-  (:import [loom.graph BasicEditableGraph BasicEditableDigraph
+  timsg.ports.loom.label
+  (:require [timsg.ports.loom.attr :refer [add-attr remove-attr attr]]
+            [timsg.ports.loom.graph :refer [add-nodes add-edges]])
+  (:import [timsg.ports.loom.graph BasicEditableGraph BasicEditableDigraph
             BasicEditableWeightedGraph BasicEditableWeightedDigraph
             FlyGraph FlyDigraph WeightedFlyGraph WeightedFlyDigraph]))
 

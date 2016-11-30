@@ -1,7 +1,7 @@
-(ns loom.compliance-tester 
+(ns timsg.ports.loom.compliance-tester 
   "Provides compliance tests for graph protocols."
-  (:require [loom.graph :refer :all]
-            [loom.attr :as attr]
+  (:require [timsg.ports.loom.graph :refer :all]
+            [timsg.ports.loom.attr :as attr]
             [clojure.test :refer :all]))
 
 (defn graph-test

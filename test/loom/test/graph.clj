@@ -1,8 +1,8 @@
-(ns loom.test.graph
-  (:require [loom.graph :refer :all]
-            [loom.attr :as attr]
+(ns timsg.ports.loom.test.graph
+  (:require [timsg.ports.loom.graph :refer :all]
+            [timsg.ports.loom.attr :as attr]
             [clojure.test :refer :all]
-            [loom.compliance-tester :refer [graph-test digraph-test
+            [timsg.ports.loom.compliance-tester :refer [graph-test digraph-test
                                             weighted-graph-test weighted-digraph-test]]))
 
 (deftest test-default-implementations

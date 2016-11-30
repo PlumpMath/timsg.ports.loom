@@ -1,6 +1,6 @@
-(ns loom.test.label
-  (:require [loom.graph :refer :all]
-            [loom.label :refer :all]
+(ns timsg.ports.loom.test.label
+  (:require [timsg.ports.loom.graph :refer :all]
+            [timsg.ports.loom.label :refer :all]
             [clojure.test :refer :all]))
 
 (deftest labeled-graph-test

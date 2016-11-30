@@ -1,11 +1,11 @@
 (ns ^{:doc "Graph attribute protocol and implementations for records from
-loom.graph. Common uses for attributes include labels and styling (color,
+timsg.ports.loom.graph. Common uses for attributes include labels and styling (color,
 thickness, etc)."
       :author "Justin Kramer"}
-  loom.attr
-  (:require [loom.graph :refer [directed? nodes edges src dest has-node?]
+  timsg.ports.loom.attr
+  (:require [timsg.ports.loom.graph :refer [directed? nodes edges src dest has-node?]
              :as graph])
-  (:import [loom.graph BasicEditableGraph BasicEditableDigraph
+  (:import [timsg.ports.loom.graph BasicEditableGraph BasicEditableDigraph
             BasicEditableWeightedGraph BasicEditableWeightedDigraph
             FlyGraph FlyDigraph WeightedFlyGraph WeightedFlyDigraph]))
 

@@ -1,9 +1,9 @@
 (ns ^{:doc "Output and view graphs in various formats"
       :author "Justin Kramer"}
-  loom.io
-  (:require [loom.graph :refer [directed? weighted? nodes edges weight]]
-            [loom.alg :refer [distinct-edges loners]]
-            [loom.attr :refer [attr? attr attrs]]
+  timsg.ports.loom.io
+  (:require [timsg.ports.loom.graph :refer [directed? weighted? nodes edges weight]]
+            [timsg.ports.loom.alg :refer [distinct-edges loners]]
+            [timsg.ports.loom.attr :refer [attr? attr attrs]]
             [clojure.string :refer [escape]]
             [clojure.java.io :refer [file]]
             [clojure.java.shell :refer [sh]])

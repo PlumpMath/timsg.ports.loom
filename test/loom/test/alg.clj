@@ -1,7 +1,7 @@
-(ns loom.test.alg
-  (:require [loom.graph :refer :all]
-            [loom.alg :refer :all]
-            [loom.derived :refer [mapped-by]]
+(ns timsg.ports.loom.test.alg
+  (:require [timsg.ports.loom.graph :refer :all]
+            [timsg.ports.loom.alg :refer :all]
+            [timsg.ports.loom.derived :refer [mapped-by]]
             [clojure.test :refer :all]))
 
 ;; http://en.wikipedia.org/wiki/Dijkstra's_algorithm
